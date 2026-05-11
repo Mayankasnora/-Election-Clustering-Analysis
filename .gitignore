@@ -1,0 +1,4 @@
+_state.pkl
+__pycache__/
+*.pyc
+.DS_Store
