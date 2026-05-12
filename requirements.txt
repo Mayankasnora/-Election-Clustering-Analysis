@@ -11,3 +11,4 @@ folium>=0.15
 streamlit-folium>=0.18
 geopandas>=0.14
 requests>=2.31
+statsmodels>=0.14

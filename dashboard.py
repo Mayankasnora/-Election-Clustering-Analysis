@@ -473,7 +473,7 @@ for year, index_url in YEARS.items():
                 # Parse assets (convert Rs crore/lakh to numeric)
                 def parse_money(s):
                     s = s.replace(',','').replace('Rs','').strip()
-                    m = re.search(r'([\d.]+)\s*(Crore|Lakh)?', s, re.I)
+                    m = re.search(r'([\\d.]+)\\s*(Crore|Lakh)?', s, re.I)
                     if not m: return 0
                     v = float(m.group(1))
                     if m.group(2) and 'crore' in m.group(2).lower(): v *= 1e7
