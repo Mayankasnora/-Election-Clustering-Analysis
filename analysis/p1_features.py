@@ -15,9 +15,11 @@ from sklearn.preprocessing import StandardScaler
 import warnings
 warnings.filterwarnings('ignore')
 
-BASE  = os.path.dirname(os.path.abspath(__file__))
-DATA  = os.path.join(BASE, 'data')
+BASE  = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # project root
+DATA  = os.path.join(BASE, 'data', 'raw')
+PROC  = os.path.join(BASE, 'data', 'processed')
 PLOTS = os.path.join(BASE, 'plots')
+os.makedirs(PROC, exist_ok=True)
 
 plt.rcParams.update({
     'figure.dpi': 150, 'font.family': 'DejaVu Sans',
@@ -116,7 +118,7 @@ X_scaled  = scaler.fit_transform(X_raw)
 print(f"Feature matrix: {X_raw.shape}")
 
 # Save state for part 2
-with open(os.path.join(BASE, '_state.pkl'), 'wb') as f:
+with open(os.path.join(PROC, '_state.pkl'), 'wb') as f:
     pickle.dump({'wide': wide, 'X_scaled': X_scaled, 'feat_cols': feat_cols,
                  'df': df, 'eci': eci, 'FEATURES': FEATURES,
                  'PARTY_COLORS': PARTY_COLORS, 'YEAR_COLORS': YEAR_COLORS}, f)

@@ -17,14 +17,15 @@ from scipy.cluster.hierarchy import dendrogram, linkage
 import warnings
 warnings.filterwarnings('ignore')
 
-BASE  = os.path.dirname(os.path.abspath(__file__))
+BASE  = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # project root
+PROC  = os.path.join(BASE, 'data', 'processed')
 PLOTS = os.path.join(BASE, 'plots')
 
 plt.rcParams.update({'figure.dpi':150,'font.family':'DejaVu Sans',
     'axes.spines.top':False,'axes.spines.right':False,
     'axes.titleweight':'bold','axes.titlesize':13,'axes.labelsize':11})
 
-with open(os.path.join(BASE, '_state.pkl'), 'rb') as f:
+with open(os.path.join(PROC, '_state.pkl'), 'rb') as f:
     state = pickle.load(f)
 wide=state['wide']; X_scaled=state['X_scaled']; feat_cols=state['feat_cols']
 df=state['df']; eci=state['eci']; FEATURES=state['FEATURES']
@@ -279,7 +280,7 @@ plt.tight_layout(); plt.savefig(os.path.join(PLOTS,'12_cluster_party_mix.png'),b
 print("Saved 12_cluster_party_mix.png")
 
 # ── Export ──
-wide.to_csv(os.path.join(BASE,'clustered_constituencies.csv'), index=False)
+wide.to_csv(os.path.join(PROC,'clustered_constituencies.csv'), index=False)
 print(f"\nAll 12 plots saved to {PLOTS}")
 print(f"Silhouette: {sil_final:.4f} | PCs for 95% var: {n95}")
 print(f"Swing seats: {len(swing_seats)} | Left collapse: {len(left_collapse)}")

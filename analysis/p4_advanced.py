@@ -16,19 +16,20 @@ from sklearn.decomposition import PCA
 import warnings
 warnings.filterwarnings('ignore')
 
-BASE  = os.path.dirname(os.path.abspath(__file__))
+BASE  = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROC  = os.path.join(BASE, 'data', 'processed')
 PLOTS = os.path.join(BASE, 'plots')
 
 plt.rcParams.update({'figure.dpi':150,'font.family':'DejaVu Sans',
     'axes.spines.top':False,'axes.spines.right':False,
     'axes.titleweight':'bold','axes.titlesize':13,'axes.labelsize':11})
 
-with open(os.path.join(BASE,'_state.pkl'),'rb') as f:
+with open(os.path.join(PROC,'_state.pkl'),'rb') as f:
     state = pickle.load(f)
 wide=state['wide']; X_scaled=state['X_scaled']
 
 # Load pre-computed cluster labels from CSV
-csv_clusters = pd.read_csv(os.path.join(BASE,'clustered_constituencies.csv'))
+csv_clusters = pd.read_csv(os.path.join(PROC,'clustered_constituencies.csv'))
 csv_clusters = csv_clusters.drop_duplicates(subset='const_key')
 for col in ['kmeans_cluster','hc_cluster','cluster_label']:
     if col in csv_clusters.columns:
@@ -188,7 +189,7 @@ plt.close()
 print("Saved 20_method_comparison.png")
 
 # Save updated wide with new cluster columns
-wide.to_csv(os.path.join(BASE,'clustered_constituencies.csv'), index=False)
+wide.to_csv(os.path.join(PROC,'clustered_constituencies.csv'), index=False)
 
 total = len([f for f in os.listdir(PLOTS) if f.endswith('.png')])
 print(f"\n✅ Part 4 complete. Total plots: {total}")

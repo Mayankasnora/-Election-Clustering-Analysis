@@ -16,6 +16,8 @@ warnings.filterwarnings('ignore')
 
 BASE  = os.path.dirname(os.path.abspath(__file__))
 PLOTS = os.path.join(BASE, 'plots')
+DATA_RAW = os.path.join(BASE, 'data', 'raw')
+DATA_PROC = os.path.join(BASE, 'data', 'processed')
 
 st.set_page_config(
     page_title="WB Electoral Clustering | UGDSAI 29 — Group 5",
@@ -44,14 +46,14 @@ st.markdown("""
 # ── Load Data ──
 @st.cache_data
 def load_data():
-    with open(os.path.join(BASE,'_state.pkl'),'rb') as f:
+    with open(os.path.join(DATA_PROC,'_state.pkl'),'rb') as f:
         state = pickle.load(f)
     wide = state['wide']
     X_scaled = state['X_scaled']
     df   = state['df']
     eci  = state['eci']
 
-    csv = pd.read_csv(os.path.join(BASE,'clustered_constituencies.csv')).drop_duplicates('const_key')
+    csv = pd.read_csv(os.path.join(DATA_PROC,'clustered_constituencies.csv')).drop_duplicates('const_key')
     for col in ['kmeans_cluster','hc_cluster','cluster_label','gmm_cluster','dbscan_cluster']:
         if col in csv.columns:
             wide = wide.merge(csv[['const_key',col]], on='const_key', how='left', suffixes=('','_x'))
@@ -638,14 +640,14 @@ print("Saved clustered_constituencies.csv")
     ds_tab1, ds_tab2, ds_tab3 = st.tabs(["ECI Raw", "MyNeta Raw", "Final Wide Matrix"])
 
     with ds_tab1:
-        eci_raw = pd.read_csv(os.path.join(BASE,'data','eci_results.csv'))
+        eci_raw = pd.read_csv(os.path.join(DATA_RAW,'eci_results.csv'))
         st.markdown(f"**Shape:** {eci_raw.shape[0]:,} rows × {eci_raw.shape[1]} columns")
         st.dataframe(eci_raw.head(20), use_container_width=True, height=320)
         st.markdown("**Column Summary:**")
         st.dataframe(eci_raw.describe().T.round(2), use_container_width=True)
 
     with ds_tab2:
-        myn_raw = pd.read_csv(os.path.join(BASE,'data','myneta.csv'))
+        myn_raw = pd.read_csv(os.path.join(DATA_RAW,'myneta.csv'))
         st.markdown(f"**Shape:** {myn_raw.shape[0]:,} rows × {myn_raw.shape[1]} columns")
         st.dataframe(myn_raw.head(20), use_container_width=True, height=320)
         st.markdown("**Null Counts:**")
@@ -654,7 +656,7 @@ print("Saved clustered_constituencies.csv")
         st.dataframe(nulls[nulls['Null Count']>0], use_container_width=True)
 
     with ds_tab3:
-        csv_wide = pd.read_csv(os.path.join(BASE,'clustered_constituencies.csv'))
+        csv_wide = pd.read_csv(os.path.join(DATA_PROC,'clustered_constituencies.csv'))
         st.markdown(f"**Shape:** {csv_wide.shape[0]:,} rows × {csv_wide.shape[1]} columns  |  Final clustering-ready matrix")
         st.dataframe(csv_wide.head(20), use_container_width=True, height=320)
         st.markdown("**Feature Columns (48 engineered):**")

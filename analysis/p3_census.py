@@ -18,16 +18,17 @@ from mlxtend.preprocessing import TransactionEncoder
 import warnings
 warnings.filterwarnings('ignore')
 
-BASE  = os.path.dirname(os.path.abspath(__file__))
+BASE  = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PLOTS = os.path.join(BASE, 'plots')
-DATA  = os.path.join(BASE, 'data')
+DATA  = os.path.join(BASE, 'data', 'raw')
+PROC  = os.path.join(BASE, 'data', 'processed')
 
 plt.rcParams.update({'figure.dpi':150,'font.family':'DejaVu Sans',
     'axes.spines.top':False,'axes.spines.right':False,
     'axes.titleweight':'bold','axes.titlesize':13,'axes.labelsize':11})
 
 # ── Load state ──
-with open(os.path.join(BASE,'_state.pkl'),'rb') as f:
+with open(os.path.join(PROC,'_state.pkl'),'rb') as f:
     state = pickle.load(f)
 wide=state['wide']; df=state['df']; eci=state['eci']
 PARTY_COLORS={'TMC':'#20A558','BJP':'#FF6600','LEFT':'#CC0000','INC':'#0077B5','OTHERS':'#888888'}
@@ -256,7 +257,7 @@ print("Saved 17_correlation_heatmap.png")
 
 # ── Save wide2 (with census columns) back to _state.pkl ──
 state['wide'] = wide2
-with open(os.path.join(BASE,'_state.pkl'),'wb') as f:
+with open(os.path.join(PROC,'_state.pkl'),'wb') as f:
     pickle.dump(state, f)
 print("✅ _state.pkl updated with Census 2011 columns (literacy_rate, urban_pct, sex_ratio, pop_density)")
 
