@@ -254,5 +254,11 @@ plt.savefig(os.path.join(PLOTS,'17_correlation_heatmap.png'), bbox_inches='tight
 plt.close()
 print("Saved 17_correlation_heatmap.png")
 
+# ── Save wide2 (with census columns) back to _state.pkl ──
+state['wide'] = wide2
+with open(os.path.join(BASE,'_state.pkl'),'wb') as f:
+    pickle.dump(state, f)
+print("✅ _state.pkl updated with Census 2011 columns (literacy_rate, urban_pct, sex_ratio, pop_density)")
+
 print("\n✅ Part 3 complete — 5 new plots saved (13–17).")
 print(f"Total plots: {len([f for f in os.listdir(PLOTS) if f.endswith('.png')])}")
