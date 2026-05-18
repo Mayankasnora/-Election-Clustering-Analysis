@@ -1,5 +1,4 @@
 # Decoding Electoral Behavior in West Bengal
-### UGDSAI 29 — Unsupervised Machine Learning | Group 5
 
 **Team:** Abhishek | Mayank | Harsh | Bhawishya  
 **Faculty:** Mr. Anant Mittal
