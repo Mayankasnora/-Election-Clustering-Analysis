@@ -1,8 +1,5 @@
 # Decoding Electoral Behavior in West Bengal
 
-**Team:** Abhishek | Mayank | Harsh | Bhawishya  
-**Faculty:** Mr. Anant Mittal
-
 ---
 
 ## Project Overview
